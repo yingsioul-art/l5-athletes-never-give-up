@@ -1,0 +1,1060 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>📚 L5 單字練習</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+
+  :root {
+    --paper: #f5efe0;
+    --paper-2: #ede4cf;
+    --paper-3: #fdfaf2;
+    --ink: #2a2520;
+    --ink-soft: #6b5e4f;
+    --green: #2d5016;
+    --green-soft: #4a7030;
+    --green-pale: #d9e4cb;
+    --orange: #c85a3f;
+    --orange-pale: #f5d9cf;
+    --red: #a82323;
+    --line: rgba(42, 37, 32, 0.14);
+    --line-strong: rgba(42, 37, 32, 0.3);
+    --shadow: 0 2px 8px rgba(42, 37, 32, 0.08), 0 1px 2px rgba(42, 37, 32, 0.06);
+    --shadow-lg: 0 8px 24px rgba(42, 37, 32, 0.12), 0 2px 6px rgba(42, 37, 32, 0.06);
+  }
+
+  body {
+    font-family: "Microsoft JhengHei", "微軟正黑體", "Microsoft YaHei", "微軟雅黑", "PingFang TC", "蘋方-繁", "Helvetica Neue", Arial, sans-serif;
+    background: var(--paper);
+    color: var(--ink);
+    min-height: 100vh;
+    background-image:
+      linear-gradient(to right, transparent 0, transparent 56px, rgba(200, 90, 63, 0.2) 56px, rgba(200, 90, 63, 0.2) 57px, transparent 57px),
+      repeating-linear-gradient(transparent, transparent 31px, rgba(45, 80, 22, 0.1) 31px, rgba(45, 80, 22, 0.1) 32px);
+    padding: 16px 8px 32px;
+    line-height: 1.5;
+  }
+  .container { max-width: 480px; margin: 0 auto; }
+
+  /* Header */
+  header { text-align: center; margin-bottom: 20px; padding-top: 8px; position: relative; }
+  .back-btn {
+    position: absolute;
+    left: 0; top: 8px;
+    padding: 6px 12px;
+    background: var(--paper-3);
+    border: 1.5px solid var(--line);
+    border-radius: 8px;
+    color: var(--ink);
+    text-decoration: none;
+    font-size: 13px;
+    font-weight: 600;
+  }
+  .back-btn:hover { border-color: var(--green); color: var(--green); }
+  h1 {
+    font-weight: 600;
+    font-size: 24px;
+    color: var(--green);
+    letter-spacing: -0.01em;
+  }
+  .subtitle {
+    font-style: italic;
+    font-weight: 600;
+    font-size: 13px;
+    color: var(--ink-soft);
+    margin-top: 4px;
+  }
+
+  /* Card sections */
+  .card {
+    background: var(--paper-3);
+    border: 1.5px solid var(--line);
+    border-radius: 10px;
+    padding: 16px;
+    margin-bottom: 16px;
+    box-shadow: var(--shadow);
+  }
+  .card-title {
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  /* Range selector */
+  .supplement-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    align-items: center;
+    margin-bottom: 12px;
+    padding-bottom: 12px;
+    border-bottom: 1px dashed var(--line);
+    font-size: 13px;
+  }
+  .chip-label {
+    color: var(--ink-soft);
+    font-weight: 600;
+    margin-right: 4px;
+  }
+  .chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 12px;
+    background: var(--paper);
+    border: 1.5px solid var(--line);
+    border-radius: 20px;
+    font-family: "Microsoft JhengHei", "微軟正黑體", "Segoe UI", Arial, sans-serif;
+    font-weight: 600;
+    font-size: 13px;
+    color: var(--ink-soft);
+    cursor: pointer;
+    transition: all 0.15s;
+    user-select: none;
+  }
+  .chip input { margin: 0; cursor: pointer; accent-color: var(--orange); }
+  .chip:has(input:checked) {
+    background: var(--orange-pale);
+    border-color: var(--orange);
+    color: var(--orange);
+  }
+  .custom-range {
+    display: flex; align-items: center; gap: 6px;
+    font-size: 13px;
+    color: var(--ink-soft);
+  }
+  .custom-range input {
+    width: 50px;
+    padding: 6px 8px;
+    border: 1.5px solid var(--line);
+    border-radius: 6px;
+    font-family: Consolas, "Courier New", monospace;
+    font-size: 13px;
+    text-align: center;
+    background: var(--paper);
+  }
+  .custom-range button {
+    margin-left: auto;
+    padding: 6px 12px;
+    background: var(--orange);
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+  }
+
+  /* Mode tabs */
+  .mode-tabs {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 4px;
+    background: var(--paper-2);
+    border: 1.5px solid var(--line);
+    border-radius: 10px;
+    padding: 4px;
+    margin-bottom: 16px;
+  }
+  .mode-tab {
+    padding: 10px 4px;
+    background: transparent;
+    border: none;
+    border-radius: 7px;
+    font-size: 11px;
+    font-weight: 500;
+    color: var(--ink-soft);
+    cursor: pointer;
+    transition: all 0.2s;
+    display: flex; flex-direction: column; align-items: center; gap: 4px;
+  }
+  .mode-tab .emoji { font-size: 18px; }
+  .mode-tab.active {
+    background: var(--paper-3);
+    color: var(--green);
+    font-weight: 700;
+    box-shadow: var(--shadow);
+  }
+
+  /* Practice area */
+  .practice {
+    background: var(--paper-3);
+    border: 1.5px solid var(--line);
+    border-radius: 12px;
+    padding: 24px 20px;
+    min-height: 360px;
+    box-shadow: var(--shadow-lg);
+    margin-bottom: 16px;
+    position: relative;
+  }
+  .word-num {
+    position: absolute;
+    top: 12px; right: 16px;
+    z-index: 20;                /* 浮在卡片之上，避免被 flashcard 蓋掉 */
+    font-family: Consolas, "Courier New", monospace;
+    font-weight: 700;
+    font-size: 14px;
+    color: white;
+    background: var(--orange);
+    padding: 4px 12px;
+    border-radius: 14px;
+    box-shadow: var(--shadow);
+    letter-spacing: 0.04em;
+  }
+
+  /* Flash card */
+  .flashcard { perspective: 1000px; height: 260px; margin-bottom: 16px; cursor: pointer; }
+  .flashcard-inner {
+    position: relative; width: 100%; height: 100%;
+    transition: transform 0.5s;
+    transform-style: preserve-3d;
+  }
+  .flashcard.flipped .flashcard-inner { transform: rotateY(180deg); }
+  .flashcard-face {
+    position: absolute; width: 100%; height: 100%;
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    padding: 20px;
+    border-radius: 10px;
+  }
+  .flashcard-front { background: var(--paper); border: 2px solid var(--line); }
+  .flashcard-back { background: var(--green-pale); border: 2px solid var(--green-soft); transform: rotateY(180deg); }
+  .word-display {
+    font-family: "Microsoft JhengHei", "微軟正黑體", "Segoe UI", Arial, sans-serif;
+    font-size: 36px;
+    font-weight: 700;
+    color: var(--green);
+    letter-spacing: -0.02em;
+    margin-bottom: 8px;
+    text-align: center;
+    line-height: 1.2;
+  }
+  .pos-display {
+    font-style: italic;
+    color: var(--ink-soft);
+    font-size: 14px;
+    margin-bottom: 6px;
+  }
+  .phonetic-display {
+    font-family: Consolas, "Courier New", monospace;
+    color: var(--ink-soft);
+    font-size: 16px;
+    margin-bottom: 14px;
+  }
+  .example-display {
+    font-family: "Microsoft JhengHei", "微軟正黑體", "Segoe UI", Arial, sans-serif;
+    font-size: 1.2em;
+    font-weight: 600;
+    line-height: 1.6;
+    color: var(--ink);
+    text-align: center;
+    margin-bottom: 8px;
+  }
+  .example-zh {
+    font-size: 14px;
+    color: var(--ink-soft);
+    text-align: center;
+    margin-bottom: 14px;
+  }
+  .flip-hint {
+    font-size: 11px;
+    color: var(--ink-soft);
+    margin-top: 8px;
+    font-style: italic;
+  }
+
+  /* Speaker */
+  .speaker {
+    width: 44px; height: 44px;
+    border-radius: 50%;
+    background: var(--orange);
+    color: white;
+    border: none;
+    display: inline-flex; align-items: center; justify-content: center;
+    cursor: pointer;
+    font-size: 18px;
+    box-shadow: var(--shadow);
+    transition: transform 0.15s;
+    font-family: inherit;
+  }
+  .speaker:active { transform: scale(0.92); }
+
+  /* Choice buttons */
+  .question-prompt { text-align: center; margin-bottom: 20px; }
+  .question-zh {
+    font-size: 26px;
+    font-weight: 700;
+    color: var(--green);
+    margin-bottom: 8px;
+  }
+  .question-hint {
+    font-size: 12px;
+    color: var(--ink-soft);
+    font-style: italic;
+  }
+  .choices { display: grid; gap: 10px; }
+  .choice {
+    padding: 14px 16px;
+    background: var(--paper);
+    border: 1.5px solid var(--line);
+    border-radius: 10px;
+    font-family: "Microsoft JhengHei", "微軟正黑體", "Segoe UI", Arial, sans-serif;
+    font-size: 18px;
+    font-weight: 500;
+    color: var(--ink);
+    cursor: pointer;
+    text-align: left;
+    transition: all 0.15s;
+    display: flex; align-items: center; gap: 12px;
+  }
+  .choice .letter {
+    width: 24px; height: 24px;
+    border-radius: 50%;
+    background: var(--paper-2);
+    color: var(--ink-soft);
+    display: inline-flex; align-items: center; justify-content: center;
+    font-family: Consolas, "Courier New", monospace;
+    font-size: 13px;
+    font-weight: 700;
+    flex-shrink: 0;
+  }
+  .choice:hover:not(:disabled) { border-color: var(--green); transform: translateX(2px); }
+  .choice.correct { background: var(--green-pale); border-color: var(--green); color: var(--green); font-weight: 700; }
+  .choice.correct .letter { background: var(--green); color: white; }
+  .choice.wrong { background: var(--orange-pale); border-color: var(--red); color: var(--red); }
+  .choice.wrong .letter { background: var(--red); color: white; }
+  .choice:disabled { cursor: not-allowed; }
+
+  /* Typing mode */
+  .typing-switch {
+    display: flex; gap: 4px;
+    background: var(--paper-2);
+    border-radius: 8px;
+    padding: 4px;
+    margin-bottom: 16px;
+  }
+  .typing-switch button {
+    flex: 1;
+    padding: 8px;
+    background: transparent;
+    border: none;
+    border-radius: 6px;
+    font-size: 13px;
+    color: var(--ink-soft);
+    cursor: pointer;
+    font-family: inherit;
+  }
+  .typing-switch button.active {
+    background: var(--paper-3);
+    color: var(--green);
+    font-weight: 700;
+    box-shadow: var(--shadow);
+  }
+  .typing-input {
+    width: 100%;
+    padding: 14px;
+    border: 2px solid var(--line);
+    border-radius: 10px;
+    font-family: "Microsoft JhengHei", "微軟正黑體", "Segoe UI", Arial, sans-serif;
+    font-weight: 600;
+    font-size: 22px;
+    text-align: center;
+    background: var(--paper);
+    color: var(--ink);
+    letter-spacing: 0.05em;
+  }
+  .typing-input:focus { outline: none; border-color: var(--green); }
+  .typing-input.correct { border-color: var(--green); background: var(--green-pale); }
+  .typing-input.wrong { border-color: var(--red); background: var(--orange-pale); }
+
+  #handwriting-canvas {
+    width: 100%; height: 180px;
+    background: var(--paper);
+    border: 2px solid var(--line);
+    border-radius: 10px;
+    cursor: crosshair;
+    touch-action: none;
+    display: block;
+  }
+  .canvas-toolbar { display: flex; gap: 8px; margin-top: 10px; }
+  .canvas-toolbar button {
+    flex: 1;
+    padding: 10px;
+    border: 1.5px solid var(--line);
+    background: var(--paper);
+    border-radius: 8px;
+    font-size: 13px;
+    color: var(--ink);
+    cursor: pointer;
+    font-family: inherit;
+  }
+  .reveal-answer {
+    margin-top: 12px;
+    padding: 14px;
+    background: var(--green-pale);
+    border-radius: 10px;
+    text-align: center;
+    font-family: "Microsoft JhengHei", "微軟正黑體", "Segoe UI", Arial, sans-serif;
+    font-size: 22px;
+    color: var(--green);
+    font-weight: 600;
+    letter-spacing: 0.04em;
+  }
+
+  /* Action buttons */
+  .actions { display: flex; gap: 8px; margin-top: 16px; }
+  .btn {
+    flex: 1;
+    padding: 12px;
+    border: 1.5px solid var(--line);
+    background: var(--paper);
+    border-radius: 8px;
+    font-weight: 500;
+    font-size: 14px;
+    color: var(--ink);
+    cursor: pointer;
+    transition: all 0.15s;
+    font-family: inherit;
+  }
+  .btn:hover { border-color: var(--green); }
+  .btn-primary { background: var(--green); color: white; border-color: var(--green); }
+  .btn-primary:hover { background: var(--green-soft); }
+
+  /* Stats */
+  .stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+    background: var(--paper-3);
+    border: 1.5px solid var(--line);
+    border-radius: 10px;
+    padding: 12px;
+    font-size: 12px;
+    text-align: center;
+  }
+  .stat-item { display: flex; flex-direction: column; gap: 2px; }
+  .stat-label { color: var(--ink-soft); }
+  .stat-value {
+    font-family: Consolas, "Courier New", monospace;
+    font-weight: 700;
+    font-size: 18px;
+    color: var(--ink);
+  }
+  .stat-value.green { color: var(--green); }
+  .stat-value.red { color: var(--red); }
+
+  /* Feedback */
+  .feedback {
+    margin-top: 12px;
+    padding: 10px;
+    border-radius: 8px;
+    text-align: center;
+    font-size: 14px;
+    font-weight: 600;
+    opacity: 0;
+    transform: translateY(-4px);
+    transition: opacity 0.2s, transform 0.2s;
+  }
+  .feedback.show { opacity: 1; transform: translateY(0); }
+  .feedback.correct { background: var(--green-pale); color: var(--green); }
+  .feedback.wrong { background: var(--orange-pale); color: var(--red); }
+
+  /* End screen */
+  .end-screen { text-align: center; padding: 30px 10px; }
+  .end-screen h2 {
+    font-weight: 700;
+    font-size: 28px;
+    color: var(--green);
+    margin-bottom: 12px;
+  }
+  .end-screen p { color: var(--ink-soft); margin-bottom: 20px; }
+  .end-stats {
+    display: flex;
+    justify-content: center;
+    gap: 24px;
+    margin-bottom: 24px;
+    font-family: Consolas, "Courier New", monospace;
+  }
+
+  @keyframes slideIn {
+    from { opacity: 0; transform: translateX(20px); }
+    to { opacity: 1; transform: translateX(0); }
+  }
+  .practice > * { animation: slideIn 0.3s ease-out; }
+
+  .footer-note {
+    text-align: center;
+    font-size: 11px;
+    color: var(--ink-soft);
+    margin-top: 20px;
+    font-style: italic;
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <header>
+    <a class="back-btn" href="index.html">← 回主選單</a>
+    <h1>📚 L5 單字練習</h1>
+    <p class="subtitle">Athletes Never Give Up · 33 字</p>
+  </header>
+
+  <!-- Range selector -->
+  <section class="card">
+    <div class="card-title">📍 練習範圍</div>
+    <div class="supplement-chips">
+      <span class="chip-label">補充字：</span>
+      <label class="chip"><input type="checkbox" id="chip-each" checked> each</label>
+      <label class="chip"><input type="checkbox" id="chip-on-time" checked> on time</label>
+    </div>
+    <div class="custom-range">
+      <span>編號範圍:</span>
+      <input type="number" id="range-start" min="1" max="31" value="1">
+      <span>—</span>
+      <input type="number" id="range-end" min="1" max="31" value="31">
+      <button onclick="applyCustomRange()">套用</button>
+    </div>
+  </section>
+
+  <!-- Mode tabs -->
+  <nav class="mode-tabs">
+    <button class="mode-tab active" data-mode="flashcard">
+      <span class="emoji">🃏</span><span>字卡</span>
+    </button>
+    <button class="mode-tab" data-mode="zh-to-en">
+      <span class="emoji">🔤</span><span>中翻英</span>
+    </button>
+    <button class="mode-tab" data-mode="spell-mc">
+      <span class="emoji">✓</span><span>拼字選擇</span>
+    </button>
+    <button class="mode-tab" data-mode="typing">
+      <span class="emoji">⌨️</span><span>拼字輸入</span>
+    </button>
+  </nav>
+
+  <!-- Practice area -->
+  <main class="practice" id="practice"></main>
+
+  <!-- Stats -->
+  <div class="stats">
+    <div class="stat-item">
+      <span class="stat-label">進度</span>
+      <span class="stat-value" id="stat-progress">0 / 0</span>
+    </div>
+    <div class="stat-item">
+      <span class="stat-label">答對</span>
+      <span class="stat-value green" id="stat-correct">0</span>
+    </div>
+    <div class="stat-item">
+      <span class="stat-label">答錯</span>
+      <span class="stat-value red" id="stat-wrong">0</span>
+    </div>
+  </div>
+
+  <p class="footer-note">L5 單字 33 字 · 點 🔊 聽英文發音</p>
+</div>
+
+<script src="data/vocab_words_L5.js"></script>
+<script>
+// ============ 載入 L5 單字資料 ============
+const vocab = window.VOCAB_WORDS_L5;
+const MAX_COURSE_NUM = 31; // 課本印刷編號最大值
+
+// 篩選邏輯：
+//   - 有 course_num：在自訂範圍內才納入
+//   - 補充字 each / on time：由上方 checkbox 決定
+function inFilter(word) {
+  if (word.word === 'each')    return state.includeEach;
+  if (word.word === 'on time') return state.includeOnTime;
+  const n = word.course_num;
+  if (n === null || n === undefined) return false;
+  return n >= state.range[0] && n <= state.range[1];
+}
+
+// 卡片顯示的編號：用 course_num，補充字顯示「補充」
+function displayLabel(word) {
+  if (word.course_num !== null && word.course_num !== undefined) return '#' + word.course_num;
+  return '補充';
+}
+
+// ============ App 狀態 ============
+const state = {
+  mode: 'flashcard',
+  range: [1, MAX_COURSE_NUM],
+  includeEach: true,
+  includeOnTime: true,
+  list: [],
+  idx: 0,
+  stats: { correct: 0, wrong: 0, total: 0 },
+  flipped: false,
+  inputMode: 'keyboard',
+  answered: false,
+};
+
+// ============ 發音（簡化版，直接呼叫 speak）============
+// 改回原型的最直接模式：cancel() 後立即 speak()。
+// 加上 keep-alive 處理 Chrome ~15 秒沉默 bug。
+// 不指定 voice，讓瀏覽器用 lang=en-US 自動選最適合的英語聲音。
+if (window.speechSynthesis) {
+  // 觸發 voices 載入（getVoices 第一次呼叫可能回空陣列，但會觸發 voiceschanged）
+  speechSynthesis.getVoices();
+  setInterval(() => {
+    try {
+      if (speechSynthesis.speaking) {
+        speechSynthesis.pause();
+        speechSynthesis.resume();
+      }
+    } catch (_) {}
+  }, 5000);
+}
+
+function speak(text, lang = 'en-US') {
+  if (!window.speechSynthesis) {
+    alert('您的瀏覽器不支援語音播放，請改用 Chrome / Edge / Safari');
+    return;
+  }
+  if (!text) return;
+  try { speechSynthesis.cancel(); } catch (_) {}
+  const u = new SpeechSynthesisUtterance(String(text));
+  u.lang = lang;
+  u.rate = 0.9;
+  speechSynthesis.speak(u);
+}
+
+// 完整朗讀：單字 + 例句一氣呵成
+function speakFull(word) {
+  if (!word) return;
+  const text = word.example_en
+    ? `${word.word}. ${word.example_en}`
+    : word.word;
+  speak(text);
+}
+
+// HTML 屬性值安全跳脫（給 data-* 用）
+function escAttr(s) {
+  return String(s == null ? '' : s).replace(/&/g, '&amp;').replace(/"/g, '&quot;');
+}
+
+// ============ 工具 ============
+function shuffle(arr) {
+  const a = [...arr];
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
+function generateWrongChoices(correctWord, n = 3) {
+  const others = vocab.filter(v => v.word !== correctWord.word);
+  return shuffle(others).slice(0, n);
+}
+
+function generateSpellingVariants(word) {
+  const variants = new Set([word]);
+  const letters = word.split('');
+  for (let i = 0; i < 20 && variants.size < 4; i++) {
+    const type = Math.floor(Math.random() * 4);
+    let variant = [...letters];
+    if (type === 0 && variant.length > 2) {
+      const pos = Math.floor(Math.random() * (variant.length - 1));
+      [variant[pos], variant[pos + 1]] = [variant[pos + 1], variant[pos]];
+    } else if (type === 1 && variant.length > 3) {
+      const pos = 1 + Math.floor(Math.random() * (variant.length - 2));
+      variant.splice(pos, 1);
+    } else if (type === 2) {
+      const vowels = 'aeiou';
+      const positions = variant.map((c, i) => vowels.includes(c) ? i : -1).filter(i => i >= 0);
+      if (positions.length > 0) {
+        const pos = positions[Math.floor(Math.random() * positions.length)];
+        const newVowel = vowels[Math.floor(Math.random() * 5)];
+        if (newVowel !== variant[pos]) variant[pos] = newVowel;
+      }
+    } else {
+      const pos = Math.floor(Math.random() * variant.length);
+      variant.splice(pos, 0, variant[pos]);
+    }
+    variants.add(variant.join(''));
+  }
+  return shuffle([...variants]).slice(0, 4);
+}
+
+// ============ 範圍選擇 ============
+function applyCustomRange() {
+  const s = parseInt(document.getElementById('range-start').value);
+  const e = parseInt(document.getElementById('range-end').value);
+  if (isNaN(s) || isNaN(e) || s < 1 || e > MAX_COURSE_NUM || s > e) {
+    alert(`範圍不正確，請輸入 1 到 ${MAX_COURSE_NUM} 之間，且起點 ≤ 終點`);
+    return;
+  }
+  state.range = [s, e];
+  resetPractice();
+}
+
+function setupSupplementChips() {
+  const each = document.getElementById('chip-each');
+  const onTime = document.getElementById('chip-on-time');
+  if (each) each.addEventListener('change', (e) => {
+    state.includeEach = e.target.checked;
+    resetPractice();
+  });
+  if (onTime) onTime.addEventListener('change', (e) => {
+    state.includeOnTime = e.target.checked;
+    resetPractice();
+  });
+}
+
+// ============ 模式切換 ============
+function setMode(mode) {
+  state.mode = mode;
+  document.querySelectorAll('.mode-tab').forEach(t => t.classList.toggle('active', t.dataset.mode === mode));
+  resetPractice();
+}
+
+document.querySelectorAll('.mode-tab').forEach(t => {
+  t.addEventListener('click', () => setMode(t.dataset.mode));
+});
+
+// ============ 練習控制 ============
+function resetPractice() {
+  state.list = shuffle(vocab.filter(inFilter));
+  state.idx = 0;
+  state.stats = { correct: 0, wrong: 0, total: state.list.length };
+  state.flipped = false;
+  state.answered = false;
+  render();
+  updateStats();
+}
+
+function next() {
+  state.idx++;
+  state.flipped = false;
+  state.answered = false;
+  render();
+}
+
+function prev() {
+  if (state.idx > 0) state.idx--;
+  state.flipped = false;
+  state.answered = false;
+  render();
+}
+
+function updateStats() {
+  document.getElementById('stat-progress').textContent = `${Math.min(state.idx + 1, state.list.length)} / ${state.list.length}`;
+  document.getElementById('stat-correct').textContent = state.stats.correct;
+  document.getElementById('stat-wrong').textContent = state.stats.wrong;
+}
+
+// ============ 主渲染 ============
+function render() {
+  const area = document.getElementById('practice');
+  updateStats();
+  if (state.idx >= state.list.length) { renderEndScreen(area); return; }
+  const word = state.list[state.idx];
+  if (state.mode === 'flashcard') renderFlashcard(area, word);
+  else if (state.mode === 'zh-to-en') renderZhToEn(area, word);
+  else if (state.mode === 'spell-mc') renderSpellMC(area, word);
+  else if (state.mode === 'typing') renderTyping(area, word);
+}
+
+// ============ 字卡 ============
+function renderFlashcard(area, word) {
+  const frontText = word.word;
+  const backText = word.example_en ? `${word.word}. ${word.example_en}` : word.word;
+  area.innerHTML = `
+    <span class="word-num">${displayLabel(word)}</span>
+    <div class="flashcard ${state.flipped ? 'flipped' : ''}" onclick="flipCard()">
+      <div class="flashcard-inner">
+        <div class="flashcard-face flashcard-front">
+          <div class="word-display">${word.word}</div>
+          <div class="pos-display">${word.pos}</div>
+          <div class="phonetic-display">${word.phonetic}</div>
+          <button class="speaker" data-text="${escAttr(frontText)}" onclick="event.stopPropagation(); speak(this.dataset.text)">🔊</button>
+          <div class="flip-hint">點卡片看中文與例句 ↻</div>
+        </div>
+        <div class="flashcard-face flashcard-back">
+          <div class="word-display" style="font-size:28px;">${word.meaning}</div>
+          <div class="example-display">${word.example_en}</div>
+          <div class="example-zh">${word.example_zh}</div>
+          <button class="speaker" data-text="${escAttr(backText)}" onclick="event.stopPropagation(); speak(this.dataset.text)">🔊</button>
+          <div class="flip-hint">點卡片看單字 ↺</div>
+        </div>
+      </div>
+    </div>
+    <div class="actions">
+      <button class="btn" onclick="prev()" ${state.idx === 0 ? 'disabled style="opacity:0.4"' : ''}>← 上一個</button>
+      <button class="btn btn-primary" onclick="next()">下一個 →</button>
+    </div>
+  `;
+}
+
+function flipCard() {
+  state.flipped = !state.flipped;
+  document.querySelector('.flashcard').classList.toggle('flipped');
+  const word = state.list[state.idx];
+  // 翻到正面：念單字；翻到背面：念完整例句
+  if (state.flipped) speakFull(word);
+  else speak(word.word);
+}
+
+// ============ 中翻英 ============
+function renderZhToEn(area, word) {
+  const wrong = generateWrongChoices(word, 3);
+  const choices = shuffle([word, ...wrong]);
+  const letters = ['A', 'B', 'C', 'D'];
+  area.innerHTML = `
+    <span class="word-num">${displayLabel(word)}</span>
+    <div class="question-prompt">
+      <div class="question-zh">${word.meaning}</div>
+      <div class="question-hint">選出正確的英文單字</div>
+    </div>
+    <div class="choices">
+      ${choices.map((c, i) => `
+        <button class="choice" data-word="${c.word}" data-correct="${word.word}" onclick="checkChoice(this)">
+          <span class="letter">${letters[i]}</span>
+          <span>${c.word}</span>
+        </button>
+      `).join('')}
+    </div>
+    <div class="feedback" id="feedback"></div>
+    <div class="actions" id="actions" style="display:none">
+      <button class="btn btn-primary" onclick="next()">下一題 →</button>
+    </div>
+  `;
+}
+
+function checkChoice(el) {
+  const chosen = el.dataset.word;
+  const correct = el.dataset.correct;
+  if (state.answered) return;
+  state.answered = true;
+  const isCorrect = chosen === correct;
+  if (isCorrect) state.stats.correct++; else state.stats.wrong++;
+  document.querySelectorAll('.choice').forEach(c => {
+    c.disabled = true;
+    if (c.dataset.word === correct) c.classList.add('correct');
+    else if (c === el) c.classList.add('wrong');
+  });
+  const fb = document.getElementById('feedback');
+  fb.className = 'feedback show ' + (isCorrect ? 'correct' : 'wrong');
+  fb.textContent = isCorrect ? '✓ 答對了！' : `✗ 正確答案是 ${correct}`;
+  // 答題後完整朗讀：單字 + 例句
+  speakFull(state.list[state.idx]);
+  document.getElementById('actions').style.display = 'flex';
+  updateStats();
+}
+
+// ============ 拼字選擇 ============
+function renderSpellMC(area, word) {
+  const variants = generateSpellingVariants(word.word);
+  const letters = ['A', 'B', 'C', 'D'];
+  area.innerHTML = `
+    <span class="word-num">${displayLabel(word)}</span>
+    <div class="question-prompt">
+      <div class="question-zh">${word.meaning}</div>
+      <button class="speaker" data-text="${escAttr(word.word)}" onclick="speak(this.dataset.text)" style="margin: 8px auto; display: block;">🔊 聽發音</button>
+      <div class="question-hint">選出拼字正確的一個</div>
+    </div>
+    <div class="choices">
+      ${variants.map((v, i) => `
+        <button class="choice" data-word="${v}" data-correct="${word.word}" onclick="checkChoice(this)">
+          <span class="letter">${letters[i]}</span>
+          <span style="font-family: 'Microsoft JhengHei', '微軟正黑體', 'Segoe UI', Arial, sans-serif; font-weight: 600; letter-spacing: 0.04em;">${v}</span>
+        </button>
+      `).join('')}
+    </div>
+    <div class="feedback" id="feedback"></div>
+    <div class="actions" id="actions" style="display:none">
+      <button class="btn btn-primary" onclick="next()">下一題 →</button>
+    </div>
+  `;
+}
+
+// ============ 拼字輸入 ============
+function renderTyping(area, word) {
+  area.innerHTML = `
+    <span class="word-num">${displayLabel(word)}</span>
+    <div class="question-prompt">
+      <div class="question-zh">${word.meaning}</div>
+      <button class="speaker" data-text="${escAttr(word.word)}" onclick="speak(this.dataset.text)" style="margin: 8px auto; display: block;">🔊 聽發音</button>
+    </div>
+    <div class="typing-switch">
+      <button class="${state.inputMode === 'keyboard' ? 'active' : ''}" onclick="switchInput('keyboard')">⌨️ 鍵盤輸入</button>
+      <button class="${state.inputMode === 'hand' ? 'active' : ''}" onclick="switchInput('hand')">🖊️ 手寫練習</button>
+    </div>
+    <div id="input-area"></div>
+  `;
+  renderInputArea(word);
+}
+
+function switchInput(mode) {
+  state.inputMode = mode;
+  renderInputArea(state.list[state.idx]);
+  document.querySelectorAll('.typing-switch button').forEach((b, i) => {
+    b.classList.toggle('active', (i === 0 && mode === 'keyboard') || (i === 1 && mode === 'hand'));
+  });
+}
+
+function renderInputArea(word) {
+  const area = document.getElementById('input-area');
+  if (state.inputMode === 'keyboard') {
+    area.innerHTML = `
+      <input class="typing-input" id="typing-input" type="text" autocomplete="off"
+             autocapitalize="off" spellcheck="false" placeholder="輸入英文單字..."
+             onkeypress="if(event.key==='Enter') checkTyping()">
+      <div class="actions">
+        <button class="btn" onclick="showTypingAnswer()">看答案</button>
+        <button class="btn btn-primary" onclick="checkTyping()">送出</button>
+      </div>
+      <div class="feedback" id="feedback"></div>
+      <div class="actions" id="next-action" style="display:none; margin-top: 8px;">
+        <button class="btn btn-primary" onclick="next()">下一題 →</button>
+      </div>
+    `;
+    setTimeout(() => document.getElementById('typing-input')?.focus(), 50);
+  } else {
+    area.innerHTML = `
+      <canvas id="handwriting-canvas"></canvas>
+      <div class="canvas-toolbar">
+        <button onclick="clearCanvas()">🧹 清空</button>
+        <button onclick="revealHandwritingAnswer()">👀 看答案</button>
+        <button onclick="next()">下一題 →</button>
+      </div>
+      <div id="reveal-box"></div>
+      <p style="font-size: 11px; color: var(--ink-soft); margin-top: 8px; text-align: center; font-style: italic;">
+        💡 手寫無法自動批改，寫完按「看答案」自我核對
+      </p>
+    `;
+    initCanvas();
+  }
+}
+
+function checkTyping() {
+  if (state.answered) return;
+  const input = document.getElementById('typing-input');
+  const userAnswer = input.value.trim().toLowerCase();
+  const correct = state.list[state.idx].word.toLowerCase();
+  if (!userAnswer) return;
+  state.answered = true;
+  const isCorrect = userAnswer === correct;
+  if (isCorrect) state.stats.correct++; else state.stats.wrong++;
+  input.classList.add(isCorrect ? 'correct' : 'wrong');
+  input.disabled = true;
+  const fb = document.getElementById('feedback');
+  fb.className = 'feedback show ' + (isCorrect ? 'correct' : 'wrong');
+  fb.innerHTML = isCorrect
+    ? '✓ 答對了！'
+    : `✗ 正確拼法是 <strong style="font-family: 'Microsoft JhengHei', '微軟正黑體', 'Segoe UI', Arial, sans-serif; font-weight: 700; font-size: 18px;">${correct}</strong>`;
+  // 答題後完整朗讀：單字 + 例句
+  speakFull(state.list[state.idx]);
+  document.getElementById('next-action').style.display = 'flex';
+  updateStats();
+}
+
+function showTypingAnswer() {
+  const word = state.list[state.idx];
+  document.getElementById('typing-input').value = word.word;
+  document.getElementById('typing-input').classList.add('correct');
+  speakFull(word);
+}
+
+// ============ Canvas 手寫 ============
+let canvas, ctx, drawing = false;
+
+function initCanvas() {
+  canvas = document.getElementById('handwriting-canvas');
+  const rect = canvas.getBoundingClientRect();
+  canvas.width = rect.width * window.devicePixelRatio;
+  canvas.height = rect.height * window.devicePixelRatio;
+  ctx = canvas.getContext('2d');
+  ctx.scale(window.devicePixelRatio, window.devicePixelRatio);
+  ctx.strokeStyle = '#2d5016';
+  ctx.lineWidth = 3;
+  ctx.lineCap = 'round';
+  ctx.lineJoin = 'round';
+  drawCanvasGuides();
+  const getPos = (e) => {
+    const r = canvas.getBoundingClientRect();
+    const t = e.touches ? e.touches[0] : e;
+    return { x: t.clientX - r.left, y: t.clientY - r.top };
+  };
+  const start = (e) => { e.preventDefault(); drawing = true; const p = getPos(e); ctx.beginPath(); ctx.moveTo(p.x, p.y); };
+  const move = (e) => { if (!drawing) return; e.preventDefault(); const p = getPos(e); ctx.lineTo(p.x, p.y); ctx.stroke(); };
+  const end = () => { drawing = false; };
+  canvas.addEventListener('mousedown', start);
+  canvas.addEventListener('mousemove', move);
+  canvas.addEventListener('mouseup', end);
+  canvas.addEventListener('mouseleave', end);
+  canvas.addEventListener('touchstart', start);
+  canvas.addEventListener('touchmove', move);
+  canvas.addEventListener('touchend', end);
+}
+
+function drawCanvasGuides() {
+  const w = canvas.width / window.devicePixelRatio;
+  const h = canvas.height / window.devicePixelRatio;
+  ctx.save();
+  ctx.strokeStyle = 'rgba(45, 80, 22, 0.18)';
+  ctx.lineWidth = 1;
+  ctx.setLineDash([4, 4]);
+  [h * 0.3, h * 0.7].forEach(y => { ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(w, y); ctx.stroke(); });
+  ctx.setLineDash([]);
+  ctx.restore();
+}
+
+function clearCanvas() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  drawCanvasGuides();
+  document.getElementById('reveal-box').innerHTML = '';
+}
+
+function revealHandwritingAnswer() {
+  const word = state.list[state.idx];
+  document.getElementById('reveal-box').innerHTML = `<div class="reveal-answer">${word.word}</div>`;
+  speakFull(word);
+}
+
+// ============ 結束畫面 ============
+function renderEndScreen(area) {
+  const total = state.stats.correct + state.stats.wrong;
+  const pct = total > 0 ? Math.round((state.stats.correct / total) * 100) : 0;
+  area.innerHTML = `
+    <div class="end-screen">
+      <h2>🎉 完成這一輪！</h2>
+      <p>${getEncouragement(pct)}</p>
+      <div class="end-stats">
+        <div><div style="color: var(--ink-soft); font-size: 12px;">答對</div><div style="font-size: 28px; color: var(--green); font-weight: 700;">${state.stats.correct}</div></div>
+        <div><div style="color: var(--ink-soft); font-size: 12px;">答錯</div><div style="font-size: 28px; color: var(--red); font-weight: 700;">${state.stats.wrong}</div></div>
+        <div><div style="color: var(--ink-soft); font-size: 12px;">正確率</div><div style="font-size: 28px; color: var(--orange); font-weight: 700;">${pct}%</div></div>
+      </div>
+      <button class="btn btn-primary" style="max-width: 240px; margin: 0 auto; display: block;"
+              onclick="resetPractice()">🔁 再練一次</button>
+    </div>
+  `;
+}
+
+function getEncouragement(pct) {
+  if (pct >= 90) return '太厲害了！你掌握得非常好！';
+  if (pct >= 70) return '不錯喔！再加把勁就完美了！';
+  if (pct >= 50) return '繼續努力！多練幾次就會進步！';
+  return '別灰心，從錯誤中學習最有效！';
+}
+
+// ============ 初始化 ============
+setupSupplementChips();
+resetPractice();
+</script>
+</body>
+</html>

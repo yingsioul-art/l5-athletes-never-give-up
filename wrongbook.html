@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>📊 錯題本</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<div class="container">
+
+  <header>
+    <a class="back-btn" href="index.html">← 回主選單</a>
+    <h1>📊 錯題本</h1>
+    <p class="subtitle" id="wb-summary">載入中...</p>
+  </header>
+
+  <div id="wb-content"></div>
+
+  <div class="actions" id="wb-actions" style="display:none;">
+    <button class="btn btn-orange" id="btn-clear-all">🗑️ 全部清空</button>
+  </div>
+
+  <p class="footer-note">點「重做這 N 題」會自動只練錯過的題目</p>
+</div>
+
+<!-- 載入所有資料檔，方便用 id 反查原題（顯示更多細節）-->
+<script src="js/shared.js"></script>
+<script src="data/pyramid_L5.js"></script>
+<script src="data/position_L5.js"></script>
+<script src="data/fillblank_L5.js"></script>
+<script src="data/howoften_L5.js"></script>
+<script src="data/spin_L5.js"></script>
+<script src="data/vocab_quiz_L5.js"></script>
+<script src="data/translate_L5.js"></script>
+<script src="data/reading_L5.js"></script>
+<script src="data/transform_L5.js"></script>
+
+<script>
+(function () {
+  // 模式 metadata
+  const MODES = {
+    vocab:     { title: '📝 字彙語法選擇', supportsRedo: true },
+    fillblank: { title: '✍️ 填空練習',     supportsRedo: true },
+    position:  { title: '🎯 副詞位置點選', supportsRedo: true },
+    translate: { title: '✏️ 中翻英練習',   supportsRedo: true },
+    transform: { title: '🔧 句型轉換',     supportsRedo: true },
+    reading:   { title: '📖 閱讀理解',     supportsRedo: true },
+    howoften:  { title: '🔗 How often 連連看', supportsRedo: false },
+    spin:      { title: '🎡 Spin and Say', supportsRedo: false },
+    pyramid:   { title: '🏔️ 頻率金字塔',   supportsRedo: false },
+  };
+
+  function render() {
+    const all = window.L5Shared.getWrongList();
+    const content = document.getElementById('wb-content');
+    const summary = document.getElementById('wb-summary');
+    const actions = document.getElementById('wb-actions');
+
+    if (!all.length) {
+      summary.textContent = '目前沒有錯題！繼續加油 💪';
+      content.innerHTML = `
+        <div class="wb-empty">
+          <div style="font-size:48px; margin-bottom:8px;">🎉</div>
+          <div>還沒有任何錯題紀錄。<br>到主選單挑戰一下吧！</div>
+        </div>
+      `;
+      actions.style.display = 'none';
+      return;
+    }
+
+    // 按 mode 分組
+    const groups = {};
+    all.forEach(w => {
+      if (!groups[w.mode]) groups[w.mode] = [];
+      groups[w.mode].push(w);
+    });
+    const sortedModes = Object.keys(groups).sort();
+    const total = all.length;
+
+    summary.textContent = `總計 ${total} 筆錯題，分布於 ${sortedModes.length} 個模式`;
+    actions.style.display = 'flex';
+
+    content.innerHTML = sortedModes.map(modeKey => {
+      const meta = MODES[modeKey] || { title: modeKey, supportsRedo: false };
+      const wrongs = groups[modeKey];
+      const uniqueIds = new Set(wrongs.map(w => w.id));
+      return `
+        <section class="wb-section">
+          <div class="wb-section-head">
+            <h3>${meta.title}（${uniqueIds.size} 題 / 累計 ${wrongs.length} 筆）</h3>
+            <div class="wb-section-btns">
+              ${meta.supportsRedo
+                ? `<a class="btn btn-primary" href="grammar.html?mode=${modeKey}&redo=1">🔁 重做這 ${uniqueIds.size} 題</a>`
+                : `<span class="wb-note">此模式不支援重做</span>`}
+              <button class="btn" data-clear-mode="${modeKey}">🧹 清空</button>
+            </div>
+          </div>
+          <div class="wb-list">
+            ${wrongs.slice(0, 50).map(w => renderItem(w)).join('')}
+            ${wrongs.length > 50 ? `<div class="wb-note" style="text-align:center; padding:6px;">…還有 ${wrongs.length - 50} 筆已隱藏</div>` : ''}
+          </div>
+        </section>
+      `;
+    }).join('');
+
+    // 綁定各 mode 清空按鈕
+    content.querySelectorAll('[data-clear-mode]').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const mode = btn.dataset.clearMode;
+        if (confirm(`確定要清空「${MODES[mode]?.title || mode}」的所有錯題嗎？`)) {
+          window.L5Shared.clearWrongByMode(mode);
+          render();
+        }
+      });
+    });
+
+    document.getElementById('btn-clear-all').onclick = () => {
+      if (confirm('確定要清空所有模式的錯題嗎？這個動作無法復原。')) {
+        window.L5Shared.clearWrongList();
+        render();
+      }
+    };
+  }
+
+  function renderItem(w) {
+    const d = new Date(w.ts);
+    const dateStr = `${d.getMonth() + 1}/${d.getDate()} ${String(d.getHours()).padStart(2,'0')}:${String(d.getMinutes()).padStart(2,'0')}`;
+    return `
+      <div class="wb-item">
+        <div class="wb-item-head">
+          <span class="wb-item-id">${escapeHtml(w.id || '')}</span>
+          <span class="wb-item-ts">${dateStr}</span>
+        </div>
+        <div class="wb-item-prompt">${escapeHtml(w.prompt || '')}</div>
+        <div class="wb-item-row wrong">你寫的：<strong>${escapeHtml(w.userAnswer || '(空)')}</strong></div>
+        <div class="wb-item-row correct">正確：<strong>${escapeHtml(w.correctAnswer || '')}</strong></div>
+      </div>
+    `;
+  }
+
+  function escapeHtml(s) {
+    return String(s).replace(/[&<>"']/g, c => ({
+      '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
+    }[c]));
+  }
+
+  render();
+})();
+</script>
+</body>
+</html>

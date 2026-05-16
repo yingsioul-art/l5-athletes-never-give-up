@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>L5 文法練習</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<div class="container">
+
+  <header>
+    <a class="back-btn" href="index.html">← 回主選單</a>
+    <h1 id="mode-title">載入中...</h1>
+    <p class="subtitle" id="mode-subtitle"></p>
+  </header>
+
+  <main class="practice" id="practice-area">
+    <p style="text-align:center; color: var(--ink-soft); padding: 40px 0;">載入中...</p>
+  </main>
+
+  <div class="stats" id="stats-bar">
+    <div class="stat-item">
+      <span class="stat-label">進度</span>
+      <span class="stat-value" id="stat-progress">0 / 0</span>
+    </div>
+    <div class="stat-item">
+      <span class="stat-label">答對</span>
+      <span class="stat-value green" id="stat-correct">0</span>
+    </div>
+    <div class="stat-item">
+      <span class="stat-label">答錯</span>
+      <span class="stat-value red" id="stat-wrong">0</span>
+    </div>
+  </div>
+
+  <p class="footer-note">L5 Athletes Never Give Up · 七年級下學期</p>
+</div>
+
+<!-- 共用工具 -->
+<script src="js/shared.js"></script>
+
+<!-- 資料（已實作的模式才載入；未實作的暫不載入避免 404）-->
+<script src="data/pyramid_L5.js"></script>
+<script src="data/position_L5.js"></script>
+<script src="data/fillblank_L5.js"></script>
+<script src="data/howoften_L5.js"></script>
+<script src="data/spin_L5.js"></script>
+<script src="data/vocab_quiz_L5.js"></script>
+<script src="data/translate_L5.js"></script>
+<script src="data/reading_L5.js"></script>
+<script src="data/transform_L5.js"></script>
+
+<!-- 模式邏輯 -->
+<script src="js/mode-pyramid.js"></script>
+<script src="js/mode-position.js"></script>
+<script src="js/mode-fillblank.js"></script>
+<script src="js/mode-howoften.js"></script>
+<script src="js/mode-spin.js"></script>
+<script src="js/mode-vocab.js"></script>
+<script src="js/mode-translate.js"></script>
+<script src="js/mode-reading.js"></script>
+<script src="js/mode-transform.js"></script>
+
+<!-- 路由：依 URL ?mode= 參數啟動對應模式 -->
+<script>
+  (function () {
+    const params = new URLSearchParams(location.search);
+    const mode = params.get('mode') || 'pyramid';
+    document.getElementById('mode-title').textContent = window.MODE_TITLES?.[mode] || mode;
+    const container = document.getElementById('practice-area');
+
+    const initFn = {
+      pyramid:   () => window.ModePyramid?.init(container),
+      position:  () => window.ModePosition?.init(container),
+      fillblank: () => window.ModeFillBlank?.init(container),
+      howoften:  () => window.ModeHowOften?.init(container),
+      spin:      () => window.ModeSpin?.init(container),
+      vocab:     () => window.ModeVocab?.init(container),
+      translate: () => window.ModeTranslate?.init(container),
+      reading:   () => window.ModeReading?.init(container),
+      transform: () => window.ModeTransform?.init(container),
+    }[mode];
+
+    if (initFn) initFn();
+    else container.innerHTML = `<p style="text-align:center; padding: 40px 0; color: var(--red);">未知模式：${mode}</p>`;
+  })();
+</script>
+</body>
+</html>
