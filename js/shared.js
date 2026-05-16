@@ -172,5 +172,7 @@
     translate: '✏️ 模式 7：中翻英練習',
     reading:   '📖 模式 8：閱讀理解',
     transform: '🔧 模式 9：句型轉換',
+    passage:   '📕 課文：Athletes Never Give Up',
+    dialogue:  '💬 對話：Reporter & Amanda',
   };
 })();

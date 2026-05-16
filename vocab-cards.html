@@ -728,7 +728,8 @@ document.querySelectorAll('.mode-tab').forEach(t => {
 
 // ============ 練習控制 ============
 function resetPractice() {
-  state.list = shuffle(vocab.filter(inFilter));
+  // 依課本編號（num 1→33）依序排列，不打亂
+  state.list = vocab.filter(inFilter).slice().sort((a, b) => a.num - b.num);
   state.idx = 0;
   state.stats = { correct: 0, wrong: 0, total: state.list.length };
   state.flipped = false;

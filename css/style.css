@@ -1249,6 +1249,383 @@ h3 {
   color: var(--green);
 }
 
+/* ====== 課文閱讀 / 對話練習 共用樣式 ====== */
+.passage-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: center;
+  margin-bottom: 18px;
+  padding: 10px;
+  background: var(--paper-2);
+  border: 1.5px solid var(--line);
+  border-radius: 10px;
+}
+
+.passage-para-group {
+  background: var(--paper-3);
+  border: 1.5px solid var(--line);
+  border-radius: 12px;
+  padding: 16px;
+  margin-bottom: 14px;
+  box-shadow: var(--shadow);
+}
+.para-label {
+  display: inline-block;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  color: var(--orange);
+  background: var(--orange-pale);
+  padding: 3px 10px;
+  border-radius: 12px;
+  margin-bottom: 10px;
+}
+
+.passage-sentence {
+  display: flex;
+  gap: 10px;
+  padding: 12px 4px;
+  border-bottom: 1px dashed var(--line);
+  align-items: flex-start;
+}
+.passage-sentence:last-child { border-bottom: none; }
+.sentence-speaker {
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+.sentence-content { flex: 1; min-width: 0; }
+.sentence-en {
+  font-family: "Microsoft JhengHei", "微軟正黑體", "Segoe UI", Arial, sans-serif;
+  font-weight: 600;
+  font-size: 17px;
+  color: var(--ink);
+  line-height: 1.7;
+}
+.sentence-zh {
+  font-size: 14px;
+  color: var(--ink-soft);
+  margin-top: 4px;
+  line-height: 1.6;
+  display: none;
+}
+.reading-stage.show-zh .sentence-zh { display: block; }
+
+/* 講解區塊 */
+.ann-toggle {
+  display: inline-block;
+  margin-top: 8px;
+  padding: 6px 12px;
+  background: var(--paper-2);
+  border: 1.5px solid var(--line);
+  border-radius: 8px;
+  font-family: inherit;
+  font-size: 13px;
+  color: var(--green);
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.ann-toggle:hover { background: var(--green-pale); border-color: var(--green); }
+.ann-box {
+  display: none;
+  margin-top: 10px;
+  background: var(--paper);
+  border: 1.5px solid var(--line);
+  border-radius: 10px;
+  padding: 12px 14px;
+}
+.ann-box.open { display: block; }
+.reading-stage.show-ann .ann-box {
+  display: block;
+}
+.reading-stage.show-ann .ann-toggle { display: none; }
+
+.ann-section { margin-bottom: 10px; }
+.ann-section:last-child { margin-bottom: 0; }
+.ann-section-title {
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  margin-bottom: 6px;
+}
+.ann-section.ann-vocab .ann-section-title { color: var(--green); }
+.ann-section.ann-idiom .ann-section-title { color: var(--orange); }
+.ann-section.ann-grammar .ann-section-title { color: #5a4070; }
+.ann-section ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.ann-section li {
+  font-size: 13.5px;
+  line-height: 1.55;
+  padding: 6px 10px;
+  border-radius: 6px;
+}
+.ann-section.ann-vocab li {
+  background: var(--green-pale);
+  border-left: 3px solid var(--green);
+}
+.ann-section.ann-idiom li {
+  background: var(--orange-pale);
+  border-left: 3px solid var(--orange);
+}
+.ann-section.ann-grammar li {
+  background: #ece4f4;
+  border-left: 3px solid #7a5ca0;
+}
+.ann-num {
+  display: inline-block;
+  min-width: 30px;
+  margin-right: 6px;
+  padding: 1px 6px;
+  background: white;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  font-family: Consolas, "Courier New", monospace;
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--orange);
+  text-align: center;
+}
+.ann-section em {
+  font-style: italic;
+  color: var(--ink-soft);
+  font-size: 12px;
+  margin: 0 4px;
+}
+.ann-grammar .g-point {
+  font-weight: 700;
+  color: #5a4070;
+  margin-bottom: 2px;
+}
+.ann-grammar .g-explain {
+  font-size: 13px;
+  color: var(--ink);
+}
+
+/* Post-reading 名言區 */
+.passage-quotes {
+  margin-top: 20px;
+  padding: 16px;
+  background: linear-gradient(135deg, #fff8e0 0%, #fcefc0 100%);
+  border: 2px solid var(--gold);
+  border-radius: 14px;
+}
+.quote-title {
+  font-size: 16px;
+  font-weight: 700;
+  color: #8a6912;
+  margin-bottom: 10px;
+}
+.quote-card {
+  display: flex;
+  gap: 10px;
+  padding: 10px 4px;
+  border-bottom: 1px dashed rgba(138, 105, 18, 0.2);
+  align-items: flex-start;
+}
+.quote-card:last-child { border-bottom: none; }
+.quote-content { flex: 1; }
+.quote-en {
+  font-family: "Microsoft JhengHei", "微軟正黑體", "Segoe UI", Arial, sans-serif;
+  font-weight: 600;
+  font-size: 15px;
+  color: #5a4810;
+  line-height: 1.5;
+}
+.quote-zh {
+  font-size: 13px;
+  color: #8a6912;
+  margin-top: 3px;
+}
+
+/* 對話 dialogue */
+.dialogue-setting {
+  background: var(--paper-2);
+  border: 1.5px dashed var(--line-strong);
+  border-radius: 12px;
+  padding: 14px 16px;
+  margin-bottom: 18px;
+}
+.setting-label {
+  display: inline-block;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  color: var(--ink-soft);
+  margin-bottom: 6px;
+}
+.setting-en {
+  font-style: italic;
+  font-weight: 500;
+  font-size: 15px;
+  color: var(--ink);
+  line-height: 1.65;
+}
+.setting-zh {
+  font-size: 13px;
+  color: var(--ink-soft);
+  margin-top: 6px;
+  display: none;
+}
+.reading-stage.show-zh .setting-zh { display: block; }
+
+.roleplay-bar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  align-items: center;
+  margin-bottom: 14px;
+  padding: 10px;
+  background: var(--paper-2);
+  border-radius: 10px;
+}
+.rp-label {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--ink-soft);
+}
+.rp-btn {
+  padding: 6px 12px;
+  background: var(--paper);
+  border: 1.5px solid var(--line);
+  border-radius: 14px;
+  font-family: inherit;
+  font-size: 13px;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.rp-btn:hover { border-color: var(--green); }
+.rp-btn.active {
+  background: var(--orange);
+  color: white;
+  border-color: var(--orange);
+}
+.rp-btn.rp-clear { color: var(--red); }
+
+.dialogue-body {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.dialogue-line {
+  display: flex;
+  gap: 12px;
+  padding: 12px;
+  background: var(--paper-3);
+  border: 1.5px solid var(--line);
+  border-radius: 12px;
+}
+.dialogue-line.speaker-orange { border-left: 5px solid var(--orange); background: #fff7f1; }
+.dialogue-line.speaker-green  { border-left: 5px solid var(--green);  background: #f1f7ec; }
+.line-speaker {
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  min-width: 64px;
+}
+.line-emoji { font-size: 28px; }
+.line-name {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--ink);
+}
+.line-content { flex: 1; min-width: 0; }
+.line-en {
+  font-family: "Microsoft JhengHei", "微軟正黑體", "Segoe UI", Arial, sans-serif;
+  font-weight: 600;
+  font-size: 16px;
+  color: var(--ink);
+  line-height: 1.6;
+}
+.line-zh {
+  font-size: 13px;
+  color: var(--ink-soft);
+  margin-top: 4px;
+  display: none;
+}
+.reading-stage.show-zh .line-zh { display: block; }
+.line-speaker-btn { margin-top: 6px; }
+
+.rp-hide {
+  background: linear-gradient(135deg, var(--paper-2) 0%, var(--paper) 100%) !important;
+}
+.rp-hidden { display: none !important; }
+.rp-prompt {
+  font-size: 14px;
+  color: var(--ink-soft);
+  font-style: italic;
+  padding: 8px;
+  background: white;
+  border: 1.5px dashed var(--orange);
+  border-radius: 8px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+}
+.rp-reveal {
+  padding: 4px 10px;
+  font-size: 12px;
+  flex-shrink: 0;
+}
+
+/* 對話理解題 */
+.dialogue-comp {
+  margin-top: 20px;
+  padding: 16px;
+  background: var(--paper-3);
+  border: 1.5px solid var(--line);
+  border-radius: 12px;
+}
+.comp-title {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--green);
+  margin-bottom: 12px;
+}
+.comp-question {
+  padding: 12px;
+  margin-bottom: 10px;
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+}
+.comp-question:last-child { margin-bottom: 0; }
+.comp-prompt {
+  font-weight: 600;
+  font-size: 14px;
+  margin-bottom: 2px;
+}
+.comp-prompt-zh {
+  font-size: 12px;
+  color: var(--ink-soft);
+  margin-bottom: 8px;
+}
+.comp-choices {
+  display: grid;
+  gap: 6px;
+}
+.comp-choice {
+  font-size: 13px;
+  padding: 8px 10px;
+}
+.comp-explain {
+  margin-top: 8px;
+  padding: 8px 10px;
+  background: var(--green-pale);
+  border-left: 3px solid var(--green);
+  border-radius: 4px;
+  font-size: 13px;
+  color: var(--green);
+}
+
 /* ====== 競賽模式 competition.html ====== */
 .opp-grid {
   display: grid;

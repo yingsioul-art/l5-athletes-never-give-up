@@ -50,6 +50,8 @@
 <script src="data/translate_L5.js"></script>
 <script src="data/reading_L5.js"></script>
 <script src="data/transform_L5.js"></script>
+<script src="data/passage_L5.js"></script>
+<script src="data/dialogue_L5.js"></script>
 
 <!-- 模式邏輯 -->
 <script src="js/mode-pyramid.js"></script>
@@ -61,6 +63,8 @@
 <script src="js/mode-translate.js"></script>
 <script src="js/mode-reading.js"></script>
 <script src="js/mode-transform.js"></script>
+<script src="js/mode-passage.js"></script>
+<script src="js/mode-dialogue.js"></script>
 
 <!-- 路由：依 URL ?mode= 參數啟動對應模式 -->
 <script>
@@ -80,6 +84,8 @@
       translate: () => window.ModeTranslate?.init(container),
       reading:   () => window.ModeReading?.init(container),
       transform: () => window.ModeTransform?.init(container),
+      passage:   () => window.ModePassage?.init(container),
+      dialogue:  () => window.ModeDialogue?.init(container),
     }[mode];
 
     if (initFn) initFn();
