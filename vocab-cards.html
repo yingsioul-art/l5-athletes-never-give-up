@@ -965,8 +965,8 @@ function checkTyping() {
   fb.innerHTML = isCorrect
     ? '✓ 答對了！'
     : `✗ 正確拼法是 <strong style="font-family: 'Microsoft JhengHei', '微軟正黑體', 'Segoe UI', Arial, sans-serif; font-weight: 700; font-size: 18px;">${correct}</strong>`;
-  // 答題後完整朗讀：單字 + 例句
-  speakFull(state.list[state.idx]);
+  // 拼字輸入答題後只念單字（不念完整例句）
+  speak(state.list[state.idx].word);
   document.getElementById('next-action').style.display = 'flex';
   updateStats();
 }
@@ -975,7 +975,8 @@ function showTypingAnswer() {
   const word = state.list[state.idx];
   document.getElementById('typing-input').value = word.word;
   document.getElementById('typing-input').classList.add('correct');
-  speakFull(word);
+  // 看答案只念單字（不念例句）
+  speak(word.word);
 }
 
 // ============ Canvas 手寫 ============
@@ -1031,7 +1032,8 @@ function clearCanvas() {
 function revealHandwritingAnswer() {
   const word = state.list[state.idx];
   document.getElementById('reveal-box').innerHTML = `<div class="reveal-answer">${word.word}</div>`;
-  speakFull(word);
+  // 手寫看答案只念單字（不念例句）
+  speak(word.word);
 }
 
 // ============ 結束畫面 ============
