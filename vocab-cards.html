@@ -378,13 +378,20 @@
   .typing-input.wrong { border-color: var(--red); background: var(--orange-pale); }
 
   #handwriting-canvas {
-    width: 100%; height: 180px;
+    width: 100%;
+    height: 260px;
     background: var(--paper);
     border: 2px solid var(--line);
     border-radius: 10px;
     cursor: crosshair;
     touch-action: none;
     display: block;
+  }
+  @media (min-width: 720px) {
+    #handwriting-canvas { height: 340px; }
+  }
+  @media (min-width: 1024px) {
+    #handwriting-canvas { height: 420px; }
   }
   .canvas-toolbar { display: flex; gap: 8px; margin-top: 10px; }
   .canvas-toolbar button {
@@ -851,8 +858,8 @@ function checkChoice(el) {
   const fb = document.getElementById('feedback');
   fb.className = 'feedback show ' + (isCorrect ? 'correct' : 'wrong');
   fb.textContent = isCorrect ? '✓ 答對了！' : `✗ 正確答案是 ${correct}`;
-  // 答題後完整朗讀：單字 + 例句
-  speakFull(state.list[state.idx]);
+  // 中翻英/拼字題答題後只念單字（不念完整例句）
+  speak(correct);
   document.getElementById('actions').style.display = 'flex';
   updateStats();
 }

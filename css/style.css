@@ -2083,15 +2083,30 @@ h3 {
 }
 
 /* 手寫畫板 */
-#handwriting-canvas {
+#handwriting-canvas,
+#hw-canvas,
+.handwriting-canvas-shared,
+canvas[id*="canvas"] {
   width: 100%;
-  height: 180px;
+  height: 260px;
   background: var(--paper);
   border: 2px solid var(--line);
   border-radius: 10px;
   cursor: crosshair;
   touch-action: none;
   display: block;
+}
+@media (min-width: 720px) {
+  #handwriting-canvas,
+  #hw-canvas,
+  .handwriting-canvas-shared,
+  canvas[id*="canvas"] { height: 340px; }
+}
+@media (min-width: 1024px) {
+  #handwriting-canvas,
+  #hw-canvas,
+  .handwriting-canvas-shared,
+  canvas[id*="canvas"] { height: 420px; }
 }
 .canvas-toolbar {
   display: flex;
